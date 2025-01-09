@@ -73,7 +73,7 @@ def main():
     # Create bucket if needed
     dashboard.create_bucket_if_not_exists()
     
-    cities = ["Philadelphia", "Seattle", "New York"]
+    cities = ["Houston", "Honolulu", "Helsinki"]
     
     for city in cities:
         print(f"\nFetching weather for {city}...")
@@ -83,12 +83,25 @@ def main():
             feels_like = weather_data['main']['feels_like']
             humidity = weather_data['main']['humidity']
             description = weather_data['weather'][0]['description']
-            
+            wind_speed_mps = weather_data['wind']['speed']
+            wind_speed_mph = round(wind_speed_mps * 2.23694, 2)  # Convert m/s to mph
+            sunrise_timestamp = weather_data['sys']['sunrise']
+            sunset_timestamp = weather_data['sys']['sunset']
+            timezone_offset = weather_data['timezone']
+
+            # Convert sunrise and sunset timestamps to readable format
+            sunrise = datetime.utcfromtimestamp(sunrise_timestamp + timezone_offset).strftime('%Y-%m-%d %H:%M:%S')
+            sunset = datetime.utcfromtimestamp(sunset_timestamp + timezone_offset).strftime('%Y-%m-%d %H:%M:%S')
+
+
             print(f"Temperature: {temp}°F")
             print(f"Feels like: {feels_like}°F")
             print(f"Humidity: {humidity}%")
             print(f"Conditions: {description}")
-            
+            print(f"Wind Speed: {wind_speed_mph} mph")
+            print(f"Sunrise: {sunrise}")
+            print(f"Sunset: {sunset}")            
+
             # Save to S3
             success = dashboard.save_to_s3(weather_data, city)
             if success:
