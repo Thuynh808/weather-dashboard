@@ -1,7 +1,7 @@
 ---
 - name: weather-dashboard setup
   hosts: localhost
-  vars_files: .aws-keys.yaml
+  vars_files: .awskeys.yaml
   tasks:
   - name: install system packages
     yum:
@@ -29,6 +29,6 @@
     shell: "{{ item }}"
     loop:
       - 'sudo ../aws/install'
-      - 'aws configure set aws_access_key_id {{ accesskey-id }}'
-      - 'aws configure set aws_secret_access_key {{ secretaccess-key }}'
-      - 'aws configure set default.region {{ default-region }}'
+      - 'aws configure set aws_access_key_id {{ accesskeyid }}'
+      - 'aws configure set aws_secret_access_key {{ secretaccesskey }}'
+      - 'aws configure set default.region {{ defaultregion }}'
