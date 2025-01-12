@@ -12,12 +12,18 @@
       - python3-pip
       - curl
       - unzip
+  - name: upgrade pip and ansible-core
+    shell: "{{ item }}"
+    loop:
+      - 'python3 -m pip install --upgrade pip'
+      - 'pip install --upgrade ansible-core'
   - name: install python dependencies
     pip:
       name: "{{ item }}"
       state: present
     loop:
-      - boto3==1.26.137
+      - boto3==1.28.0
+      - botocore==1.31.0
       - python-dotenv==1.0.0
       - requests==2.28.2
   - name: download and unzip aws-cli

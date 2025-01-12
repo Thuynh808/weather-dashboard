@@ -1,0 +1,17 @@
+- name: setting up notifications
+  hosts: localhost
+  vars_files: vars.yaml
+  tasks:
+  - name: create alarm SNS topic and subscribe email
+    community.aws.sns_topic:
+      name: "weather-alerts"
+      state: present
+      display_name: "weather-alerts"
+      subscriptions:
+        - endpoint: "{{ emailendpoint }}"
+          protocol: "email"
+    register: sns_topic
+
+  - name: Debug output for SNS topic
+    debug:
+      var: sns_topic
