@@ -83,8 +83,7 @@ def main():
             feels_like = weather_data['main']['feels_like']
             humidity = weather_data['main']['humidity']
             description = weather_data['weather'][0]['description']
-            wind_speed_mps = weather_data['wind']['speed']
-            wind_speed_mph = round(wind_speed_mps * 2.23694, 2)  # Convert m/s to mph
+            wind_speed_mph = weather_data['wind']['speed']
             sunrise_timestamp = weather_data['sys']['sunrise']
             sunset_timestamp = weather_data['sys']['sunset']
             timezone_offset = weather_data['timezone']
