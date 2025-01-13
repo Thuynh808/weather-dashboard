@@ -33,9 +33,9 @@
       policy_json: "{{ lookup('template', 'mypolicy.j2') }}"
       state: present
     register: lambda_policy
-  - name: output lambda role arn
-    debug:
-      var: lambda_role_arn
+  - name: wait for iam role propagation
+    pause:
+      seconds: 10
   tags: iam
 
 - name: create lambda function
