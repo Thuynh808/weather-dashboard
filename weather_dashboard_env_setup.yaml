@@ -12,9 +12,6 @@
       - python3-pip
       - curl
       - unzip
-  - name: pause playbook
-    pause:
-      seconds: 5
   - name: upgrade ansible-core
     shell: "{{ item }}"
     loop:
