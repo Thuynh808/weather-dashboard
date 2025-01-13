@@ -1,0 +1,78 @@
+- name: setup sns notifications
+  hosts: localhost
+  gather_facts: false
+  vars_files: myvars.yaml
+  tasks:
+  - name: create alarm SNS topic and subscribe email
+    community.aws.sns_topic:
+      name: "weather-alerts"
+      state: present
+      display_name: "weather-alerts"
+      subscriptions:
+        - endpoint: "{{ emailendpoint }}"
+          protocol: "email"
+    register: sns_topic
+  - name: store sns_arn
+    set_fact:
+      sns_arn: "{{ sns_topic['sns_arn'] }}"
+  tags: notifications
+
+- name: setup iam role for lambda
+  hosts: localhost
+  gather_facts: false
+  vars_files: myvars.yaml
+  tasks:
+  - name: create lambda execution role
+    amazon.aws.iam_role:
+      name: "lambda-execution-role"
+      state: present
+      assume_role_policy_document: >
+        {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        }
+    register: lambda_role
+  - name: store lambda_role_arn
+    set_fact:
+      lambda_role_arn: "{{ lambda_role['iam_role']['arn'] }}"
+  - name: generate and attach lambda policy
+    amazon.aws.iam_policy:
+      iam_type: role
+      iam_name: "lambda-execution-role"
+      policy_name: "custom-weatherdashboard"
+      policy_json: "{{ lookup('template', 'mypolicy.j2') }}"
+      state: present
+    register: lambda_policy
+  - name: output lambda role arn
+    debug:
+      var: lambda_role_arn
+  tags: iam
+
+- name: create lambda function
+  hosts: localhost
+  gather_facts: false
+  vars_files: myvars.yaml
+  tasks:
+  - name: create zip file for lambda
+    shell:
+      cmd: "zip lambda_weather_alert.zip lambda_function.py"
+      chdir: ./src
+  - name: Create Lambda function
+    amazon.aws.lambda:
+      name: "weather-alert"
+      state: present
+      zip_file: "./src/lambda_weather_alert.zip"
+      runtime: "python3.9"
+      role: "{{ lambda_role_arn }}"
+      handler: "lambda_function.lambda_handler"
+      environment_variables:
+        SNS_TOPIC_ARN: "{{ sns_arn }}"
+  tags: lambda
