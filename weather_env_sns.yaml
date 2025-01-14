@@ -1,5 +1,5 @@
 ---
-- name: weather-dashboard setup
+- name: environment setup
   hosts: localhost
   vars_files: myvars.yaml
   tasks:
@@ -37,3 +37,27 @@
       - 'aws configure set aws_access_key_id {{ accesskeyid }}'
       - 'aws configure set aws_secret_access_key {{ secretaccesskey }}'
       - 'aws configure set default.region {{ defaultregion }}'
+  tags: env
+
+
+
+- name: setup sns notifications
+  hosts: localhost
+  gather_facts: false
+  vars_files: myvars.yaml
+  tasks:
+  - name: create alarm sns topic and subscribe email
+    community.aws.sns_topic:
+      name: "weather-alerts"
+      state: present
+      display_name: "weather-alerts"
+      subscriptions:
+        - endpoint: "{{ emailendpoint }}"
+          protocol: "email"
+    register: sns_topic
+  - name: append sns_arn to myvars.yaml
+    lineinfile:
+      path: ./myvars.yaml
+      line: "sns_arn: \"{{ sns_topic['sns_arn'] }}\""
+      insertafter: EOF
+  tags: notifications

@@ -1,0 +1,25 @@
+---
+- name: Enable EventBridge notifications for S3 bucket
+  hosts: localhost
+  vars_files: myvars.yaml
+  tasks:
+  - name: Configure EventBridge notification
+    community.aws.s3_bucket_notification:
+      bucket_name: "{{ bucketname }}"
+      event_name: new_object_created
+      event_bridge: true
+    register: s3_notification
+
+  - name: Debug the notification setup
+    ansible.builtin.debug:
+      var: s3_notification
+
+
+
+
+- name: enable eventbridge notifications for S3 bucket
+  shell: >
+    aws s3api put-bucket-notification-configuration
+    --bucket {{ bucketname }}
+    --notification-configuration '{"EventBridgeConfiguration": {}}'
+

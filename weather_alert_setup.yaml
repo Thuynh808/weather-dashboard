@@ -3,7 +3,7 @@
   gather_facts: false
   vars_files: myvars.yaml
   tasks:
-  - name: create alarm SNS topic and subscribe email
+  - name: create alarm sns topic and subscribe email
     community.aws.sns_topic:
       name: "weather-alerts"
       state: present

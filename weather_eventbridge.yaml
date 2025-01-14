@@ -1,0 +1,44 @@
+- name: setup eventbridge for s3 bucket
+  hosts: localhost
+  vars_files: myvars.yaml
+  tasks:
+  - name: enable eventbridge notifications for S3 bucket
+    shell: >
+      aws s3api put-bucket-notification-configuration
+      --bucket {{ bucketname }}
+      --notification-configuration '{"EventBridgeConfiguration": {}}'
+  - name: create eventbridge rule
+    amazon.aws.cloudwatchevent_rule:
+      name: "weather-s3-object-created"
+      description: "trigger lambda on new object creation in s3"
+      state: present
+      event_pattern: >
+        {
+          "source": ["aws.s3"],
+          "detail-type": ["Object Created"],
+          "detail": {
+            "bucket": {
+              "name": ["{{ bucketname }}"]
+            }
+          }
+        }
+      targets:
+        - id: "InvokeWeatherLambda"
+          arn: "{{ lambda_function_arn }}"
+    register: eventbridge_rule
+  - name: debug eventbridge rule arn
+    debug:
+      var: eventbridge_rule.rule
+  - name: add permission for eventbridge to invoke lambda
+    amazon.aws.lambda_policy:
+      state: present
+      function_name: "{{ lambda_function_name }}"
+      statement_id: "EventBridgeInvokePermission"
+      action: "lambda:InvokeFunction"
+      principal: "events.amazonaws.com"
+      source_arn: "{{ eventbridge_rule.rule.arn }}"
+    register: lambda_policy_action
+  - name: show lambda policy action result
+    ansible.builtin.debug:
+      var: lambda_policy_action
+

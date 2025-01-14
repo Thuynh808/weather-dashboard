@@ -2,3 +2,4 @@
 __pycache__/
 Collections
 myvars.yaml
+src/lambda_weather_alert.zip
