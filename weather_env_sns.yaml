@@ -37,8 +37,10 @@
       - 'aws configure set aws_access_key_id {{ accesskeyid }}'
       - 'aws configure set aws_secret_access_key {{ secretaccesskey }}'
       - 'aws configure set default.region {{ defaultregion }}'
-  tags: env
-
+  - name: create s3 bucket
+      amazon.aws.s3_bucket:
+        name: "{{ bucketname }}"
+        state: present
 
 
 - name: setup sns notifications
