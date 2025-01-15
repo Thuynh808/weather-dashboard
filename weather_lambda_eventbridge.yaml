@@ -71,7 +71,7 @@
   tags: lambda
 
 
-- name: setup eventbridge for s3 bucket
+- name: setup eventbridge
   hosts: localhost
   gather_facts: false
   vars_files: myvars.yaml
@@ -119,3 +119,18 @@
     ansible.builtin.debug:
       var: lambda_policy_action
   tags: eventbridge
+
+
+- name: setup cron job
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: daily cron job to execute the weather script
+    cron:
+      name: "Run Weather Dashboard Script"
+      job: "/usr/bin/python3 /root/weather-dashboard/src/weather_data_aggregator.py"
+      user: "{{ ansible_user }}"
+      state: present
+      minute: "0"
+      hour: "8" 
+  tags: cron
