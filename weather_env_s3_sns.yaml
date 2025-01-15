@@ -37,12 +37,12 @@
     when: aws_cli_check.rc != 0
   - name: install aws-cli and configure credentials
     shell: "{{ item }}"
-    when: when: aws_cli_check.rc != 0
     loop:
       - 'sudo ../aws/install'
       - 'aws configure set aws_access_key_id {{ accesskeyid }}'
       - 'aws configure set aws_secret_access_key {{ secretaccesskey }}'
       - 'aws configure set default.region {{ defaultregion }}'
+    when: aws_cli_check.rc != 0
   - name: create s3 bucket
     amazon.aws.s3_bucket:
       name: "{{ bucketname }}"
