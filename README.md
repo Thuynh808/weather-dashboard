@@ -5,7 +5,7 @@ This project automates daily weather data collection, aggregation, and notificat
 
 ### Components
 
-- **Rocky Linux VM**: Provides a stable environment for Ansible and script execution
+- **Rocky Linux VM**: Provides a RHEL-based and stable environment for Ansible and script execution
 - **Ansible**: Automates the deployment of AWS infrastructure and project setup
 - **AWS Services**:
   - **S3**: Stores aggregated weather data
@@ -20,19 +20,19 @@ This project automates daily weather data collection, aggregation, and notificat
 |------------------|----------|---------------|---------|
 | Rocky Linux      | 9.4      | Ansible       | 2.15    |
 | AWS CLI          | Latest   | Community.aws | 9.0     |
-| Python           | 3.9      | Amazon.aws    | 9.0     |
+| Python           | 3.9.21   | Amazon.aws    | 9.0     |
 | Botocore         | 1.31.0   | Requests      | 2.28.2  |  
 | Boto3            | 1.28.0   | python-dotenv | 1.0     |
 
 ## Prerequisites
 
 - **Rocky Linux VM**
-  - Ensure a fresh installation of Rocky Linux
-  - Allocate sufficient resources (2 CPUs, 4GB RAM)
+  - Fresh installation of Rocky Linux
+  - Allocate sufficient resources: **2 CPUs, 4GB RAM**
 - **OpenWeather API**
   - A free registered account with provided API key 
 - **AWS Account**
-   - An AWS account with proper access-key/secret-key
+   - An AWS account with provisioned access-key and secret-key
 
 ## Environment Setup
 
@@ -85,7 +85,7 @@ chmod 0600 .env myvars.yaml
 ```bash
 ansible-playbook weather_env_s3_sns.yaml -vv
 ```
-  The `weather_env_s2_sns.yaml` playbook will:
+  The `weather_env_s3_sns.yaml` playbook will:
   - Install and upgrade system packages
   - Install `pip` modules with required versions
   - Download, unzip and install `AWS CLI`
@@ -145,7 +145,7 @@ crontab -l
 ![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
   </details>
   
-**Let's manually test our Weather Dashboard!**
+**Excellent! Now for a demo, let's manually test our Weather Dashboard!**
 ```bash
 python /src/weather_data_aggregator.py
 ```
@@ -155,31 +155,17 @@ python /src/weather_data_aggregator.py
 ![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
   </details>
 
+## Challenges
 
-
----
----
-- **Set Up `Slurm` and `Munge` on the Controller Node to manage the Slurm job scheduler and secure communication:**
-```bash
-ansible-playbook slurm-control.yaml -vv
-```
-- **`Power on` compute nodes to initialize the network boot and connect to the controller node**
-
-<br>
-
-## Deployment Verification
-
-Let's verify everything is up and running!
-
-
+- Versioning in Lambda ARN: Resolved by dynamically extracting the base ARN without version numbers.
+- Policy Propagation Delays: Added a pause after creating IAM policies to ensure EventBridge permissions were applied.
+- Dynamic Variables in Ansible: Used set_fact and lineinfile modules to dynamically update variable files.
+- Conditional Task Execution: Ensured the AWS CLI installation only runs when not already present using when conditions.
+- S3 Event Configuration: Properly enabled EventBridge for S3 bucket events to trigger Lambda.
+- Securing Sensitive Files: Used file permissions to secure .env and myvars.yaml files.
 
 ## Conclusion
 
-  <details close>
-  <summary> <h4>images</h4> </summary>
-    
-![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
-  </details>
+The Weather Dashboard project showcases automation of cloud services using Ansible and AWS. It emphasizes best practices for event-driven architectures, secure credential management, and efficient deployment workflows. By implementing daily cron jobs, it provides a scalable, real-world solution for automated weather notifications.
 
-> Note: This project is configured and executed as `root` for simplicity and to streamline the setup process.
-<br>   
+
