@@ -128,7 +128,7 @@
   - name: daily cron job to execute the weather script
     cron:
       name: "Run Weather Dashboard Script"
-      job: "/usr/bin/python3 /root/weather-dashboard/src/weather_data_aggregator.py"
+      job: "/usr/bin/python3 ~/weather-dashboard/src/weather_data_aggregator.py"
       user: "{{ ansible_user }}"
       state: present
       minute: "0"
