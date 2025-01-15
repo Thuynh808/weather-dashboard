@@ -16,14 +16,13 @@ This project automates daily weather data collection, aggregation, and notificat
 
 ### Versions
 
-| Component        | Version  |
-|------------------|----------|
-| Rocky Linux      | 9.4      |
-| Ansible          | 2.14     |
-| AWS CLI          | Latest   |
-| Python           | 3.9      |
-| Boto3            | 1.28.0   |
-| Requests         | 2.28.2   |
+| Component        | Version  | Component     | Version |
+|------------------|----------|---------------|---------|
+| Rocky Linux      | 9.4      | Ansible       | 2.15    |
+| AWS CLI          | Latest   | Community.aws | 9.0     |
+| Python           | 3.9      | Amazon.aws    | 9.0     |
+| Botocore         | 1.31.0   | Requests      | 2.28.2  |  
+| Boto3            | 1.28.0   | python-dotenv | 1.0     |
 
 ## Prerequisites
 
