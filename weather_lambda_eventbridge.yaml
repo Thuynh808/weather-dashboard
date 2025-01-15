@@ -61,20 +61,13 @@
       environment_variables:
         SNS_TOPIC_ARN: "{{ sns_arn }}"
     register: lambda_function
-  - name: debug lambda_function
-    debug:
-      var: lambda_function
-  - name: append lambda_function_arn to myvars.yaml
+  - name: append lambda variables to myvars.yaml
     lineinfile:
       path: ./myvars.yaml
       line: "{{ item }}"
     loop:
       - "lambda_function_name: \"{{ lambda_function['configuration']['function_name'] }}\""
       - "lambda_function_arn: \"{{ lambda_function['configuration']['function_arn'] | regex_replace(':[0-9]+$', '') }}\""
-
-  - name: debug lambda
-    debug:
-      var: lambda_function
   tags: lambda
 
 
@@ -85,8 +78,7 @@
   tasks:
   - name: wait for lambda
     pause:
-      seconds: 10
-
+      seconds: 5
   - name: enable eventbridge notifications for S3 bucket
     shell: >
       aws s3api put-bucket-notification-configuration

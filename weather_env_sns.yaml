@@ -25,13 +25,19 @@
       - botocore==1.31.0
       - python-dotenv==1.0.0
       - requests==2.28.2
+  - name: check if aws cli is installed
+    command: "which aws"
+    register: aws_cli_check
+    ignore_errors: true
   - name: download and unzip aws-cli
     unarchive:
       src: "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
       dest: ../
       remote_src: yes
+    when: aws_cli_check.rc != 0
   - name: install aws-cli and configure credentials
     shell: "{{ item }}"
+    when: when: aws_cli_check.rc != 0
     loop:
       - 'sudo ../aws/install'
       - 'aws configure set aws_access_key_id {{ accesskeyid }}'
@@ -41,6 +47,7 @@
     amazon.aws.s3_bucket:
       name: "{{ bucketname }}"
       state: present
+  tags: env
 
 
 - name: setup sns notifications
@@ -61,5 +68,4 @@
     lineinfile:
       path: ./myvars.yaml
       line: "sns_arn: \"{{ sns_topic['sns_arn'] }}\""
-      insertafter: EOF
   tags: notifications
