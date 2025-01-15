@@ -1,0 +1,7 @@
+---
+accesskeyid: "<your-aws-access-key-id>"
+secretaccesskey: "<your-aws-secret-access-key>"
+defaultregion: "us-east-1"
+emailendpoint: "<your-email>"
+bucketname: "<your-unique-bucket-name>"
+
