@@ -25,8 +25,6 @@ This project automates daily weather data collection, aggregation, and notificat
 | Boto3            | 1.28.0   |
 | Requests         | 2.28.2   |
 
-<br>
-
 ## Prerequisites
 
 - **Rocky Linux VM**
@@ -148,30 +146,20 @@ crontab -l
 ![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
   </details>
   
+**Let's manually test our Weather Dashboard!**
+```bash
+python /src/weather_data_aggregator.py
+```
+<details close>
+  <summary> <h4>See results</h4> </summary>
+    
+![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
+  </details>
 
-  
 
-**Install Git, Ansible, and Clone the Project Repository:**
-```bash
-ansible-playbook weather_env_s3_sns.yaml -vv
-```
-- **Run the Ansible playbooks to install and configure `Warewulf` and `John the Ripper`:**
-```bash
-ansible-playbook warewulf.yaml -vv
-ansible-playbook john.yaml -vv
-```
-- **In `Warewulf` container image shell, install dependencies, and configure `Slurm` for the compute nodes:**
-```bash
-wwctl container shell rockylinux-9
-```
-```bash
-dnf install -y git ansible-core
-git clone -b dev https://github.com/Thuynh808/HPC_CryptoCluster
-cd HPC_CryptoCluster
-ansible-galaxy collection install -r requirements.yaml -vv
-ansible-playbook slurm-node.yaml -vv
-exit #rebuild container image
-```
+
+---
+---
 - **Set Up `Slurm` and `Munge` on the Controller Node to manage the Slurm job scheduler and secure communication:**
 ```bash
 ansible-playbook slurm-control.yaml -vv
@@ -184,129 +172,7 @@ ansible-playbook slurm-control.yaml -vv
 
 Let's verify everything is up and running!
 
-- **Confirm `Warewulf` service is up and node overlays configured**
-```bash
-wwctl node list -l && wwctl node list -n
-wwctl node list -a | tail -9
-systemctl status warewulfd.service --no-pager
-firewall-cmd --list-all
-```
-  <details close>
-  <summary> <h4>See Images</h4> </summary>
-  
-  ![HPC_CryptoCluster](https://i.imgur.com/Julx1xb.png)
-  ![HPC_CryptoCluster](https://i.imgur.com/82vV2aF.png)
-  <br><br>
-  </details>
-  
-- **Confirm sample password file is created and Run a benchmark test with `John`**
-```bash
-cd /home/slurm
-ls -l
-cat john_hash.txt
-john --test --format=raw-sha256
-```
-  <details close>
-  <summary> <h4>See Images</h4> </summary>
-  
-  ![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
-  <br><br>
-  </details>
-  
-- **Confirm `Slurm` and `Munge` are operational and Munge key is valid**
-```bash
-systemctl status slurmctld munge --no-pager
-munge -n | ssh node1 unmunge
-ssh node1 systemctl status slurmd
-```
-  <details close>
-  <summary> <h4>See Images</h4> </summary>
-  
-  ![HPC_CryptoCluster](https://i.imgur.com/AvlmOHC.png)
-  ![HPC_CryptoCluster](https://i.imgur.com/zQkYUcj.png)
-  <br><br>
-  </details>
-  
-- **Confirm compute nodes are properly up with network boot and hosts configured**
-```bash
-ssh node3
-```
-```bash
-dmesg | head
-cat /etc/hosts
-sinfo -l
-scontrol show node
-```
-  <details close>
-  <summary> <h4>See Images</h4> </summary>
-    
-  ![HPC_CryptoCluster](https://i.imgur.com/xY4asql.png)
-  ![HPC_CryptoCluster](https://i.imgur.com/RHsmczr.png)
-  <br><br>
-  </details>
-<br>   
 
-
-## Testing Cluster with John the Ripper
-
-This section demonstrates the cluster's functionality through two tests: a single-node password-cracking job and a multi-node distributed job.
-
-<details close>
-<summary> <h3>Single Node Test</h3> </summary>
-
-- **Submit the sbatch password-cracking job on a single compute node**
-```bash
-cd /home/slurm
-sbatch john_test.sh
-```
-- **Verify the job is submitted and running on single node**
-```bash
-sinfo -l
-scontrol show job <JobId>
-```
-![HPC_CryptoCluster](https://i.imgur.com/MnZO0Tu.png)
-
-- With 2 cpus, Slurm can be configured to allocate 2 processes to split the load of the job
-     
-![HPC_CryptoCluster](https://i.imgur.com/lk5kop8.png)  
-
-- **Confirm finished job and view results**
-```bash
-scontrol show job <JobId>
-cat /home/slurm/john_result.log
-```
-
-- The job ran efficiently and recovered all 10 target passwords within 16 minutes and 22 seconds, confirming the effectiveness of the single-node configuration for password cracking.
-    
-![HPC_CryptoCluster](https://i.imgur.com/kv4N547.png)
-
-</details>
-
-<details close>
-<summary> <h3>Multi-Node Distributed Test</h3> </summary>
-  
-- **Now we'll submit the distributed job**
-```bash
-cd /home/slurm
-sbatch john_distributed.sh
-sleep 5
-sinfo -l
-scontrol show job <JobId>
-```
-
-- The job is allocated across three nodes (node[1-3]), with each node contributing 2 CPUs for a total of 6 CPUs.
-    
-![HPC_CryptoCluster](https://i.imgur.com/4Sp87TD.png)
-  
-- **Confirm job finished and view results**
-```bash
-scontrol show job <JobId>
-cat /home/slurm/john_distributed_result.log
-```
-![HPC_CryptoCluster](https://i.imgur.com/qB3Oj56.png) 
-
-</details>
-<br>
 
 ## Conclusion
 
