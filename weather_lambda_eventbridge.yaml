@@ -22,9 +22,12 @@
           ]
         }
     register: lambda_role
-  - name: store lambda_role_arn
-    set_fact:
-      lambda_role_arn: "{{ lambda_role['iam_role']['arn'] }}"
+  - name: append lambda_role_arn to myvars.yaml
+    lineinfile:
+      path: ./myvars.yaml
+      line: "{{ item }}"
+    loop:
+      - "lambda_role_arn: \"{{ lambda_role['iam_role']['arn'] }}\""
   - name: generate and attach lambda policy
     amazon.aws.iam_policy:
       iam_type: role
@@ -58,13 +61,17 @@
       environment_variables:
         SNS_TOPIC_ARN: "{{ sns_arn }}"
     register: lambda_function
+  - name: debug lambda_function
+    debug:
+      var: lambda_function
   - name: append lambda_function_arn to myvars.yaml
     lineinfile:
       path: ./myvars.yaml
       line: "{{ item }}"
     loop:
-      - "lambda_function_arn: \"{{ lambda_function['configuration']['function_arn'] }}\""
       - "lambda_function_name: \"{{ lambda_function['configuration']['function_name'] }}\""
+      - "lambda_function_arn: \"{{ lambda_function['configuration']['function_arn'] | regex_replace(':[0-9]+$', '') }}\""
+
   - name: debug lambda
     debug:
       var: lambda_function
