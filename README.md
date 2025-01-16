@@ -7,6 +7,10 @@ This project automates daily weather data collection, aggregation, and notificat
 
 - **Rocky Linux VM**: Provides a RHEL-based and stable environment for Ansible and script execution
 - **Ansible**: Automates the deployment of AWS infrastructure and project setup
+- **Python:** Facilitates weather data fetching, aggregation, and automation through custom scripts:
+  - Fetches weather data from the OpenWeather API
+  - Uploads aggregated data to S3
+  - Processes S3 events and sends notifications to SNS
 - **AWS Services**:
   - **S3**: Stores aggregated weather data
   - **SNS**: Sends email notifications with weather reports
@@ -79,7 +83,7 @@ chmod 0600 .env myvars.yaml
 > Note: Keep these sensitive files local. Add to `.gitignore` if uploading to GitHub
 <br>  
 
-## Execute Ansible Playbooks
+## Deployment and Testing
 
 **Run Playbook:**
 ```bash
@@ -155,17 +159,14 @@ python /src/weather_data_aggregator.py
 ![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
   </details>
 
-## Challenges
+## Challenges and Solutions
 
-- Versioning in Lambda ARN: Resolved by dynamically extracting the base ARN without version numbers.
-- Policy Propagation Delays: Added a pause after creating IAM policies to ensure EventBridge permissions were applied.
-- Dynamic Variables in Ansible: Used set_fact and lineinfile modules to dynamically update variable files.
-- Conditional Task Execution: Ensured the AWS CLI installation only runs when not already present using when conditions.
-- S3 Event Configuration: Properly enabled EventBridge for S3 bucket events to trigger Lambda.
-- Securing Sensitive Files: Used file permissions to secure .env and myvars.yaml files.
+- Versioning Issue with Lambda ARN: Resolved by dynamically extracting the base ARN without version numbers
+- Policy Propagation Error: Added a "pause" module after creating IAM policies to ensure EventBridge permissions were applied
+- Dynamic Variables in Ansible: Used set_fact and lineinfile modules to dynamically update variable file
+- Conditional Task Execution: Ensured the AWS CLI installation only runs when not already present using "when" conditions
+- S3 Event Configuration Error: Properly enabled EventBridge for S3 bucket events to trigger Lambda
 
 ## Conclusion
 
-The Weather Dashboard project showcases automation of cloud services using Ansible and AWS. It emphasizes best practices for event-driven architectures, secure credential management, and efficient deployment workflows. By implementing daily cron jobs, it provides a scalable, real-world solution for automated weather notifications.
-
-
+Let's GO!! The Weather Dashboard project gave me hands-on experience with AWS services like S3, SNS, Lambda, and EventBridge, all tied together with Ansible automation. It was awesome to see these services work seamlessly to create a functional, scalable solution for daily weather notifications.
