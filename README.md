@@ -168,17 +168,27 @@ crontab -l
 ![Weather-Dashboard-Automation](https://i.imgur.com/90vYwtb.png)
 ![Weather-Dashboard-Automation](https://i.imgur.com/ZocVy92.png)
 
-  
+  - **Lambda Function**: Verify function name and ARN are correct; SNS Topic ARN is properly set as environment variable
+  - **EventBridge Rule**: Confirm state is `ENABLED` and event pattern is set to trigger when an object is created in S3
+  - **Cron Job**: a daily cron job exists to run the Python script (weather_data_aggregator.py) at the correct time (0 8 * * *)
   </details>
-  
-**Excellent! Now for a demo, let's manually test our Weather Dashboard!**
+
+---
+
+### Excellent! Now for a demo, let's manually test our Weather Dashboard!
+
+**Run:**
 ```bash
 python src/weather_data_aggregator.py
 ```
 <details close>
   <summary> <h4>See results</h4> </summary>
     
-![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
+![Weather-Dashboard-Automation](https://i.imgur.com/lHZRlOe.png) 
+
+![Weather-Dashboard-Automation](https://i.imgur.com/ID2DT3y.png)
+
+**Awesome! We can confirm the data is saved to S3 which triggered our workflow to finally deliver the notification to our email!**
   </details>
 
 ## Challenges and Solutions
