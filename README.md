@@ -1,4 +1,4 @@
-![HPC_CryptoCluster](https://i.imgur.com/31TiOpL.png)
+![Weather-Dashboard-Automation](https://i.imgur.com/9qfpYjc.png)
 
 ## Project Overview
 This project automates daily weather data collection, aggregation, and notification delivery using AWS services and Ansible. The **Weather Dashboard** fetches weather data from the OpenWeather API for four cities, uploads it to an S3 bucket, triggers a Lambda function via EventBridge, and sends the aggregated weather report to a subscribed email via SNS. This project demonstrates cloud automation, event-driven architecture, and end-to-end deployment workflows.
