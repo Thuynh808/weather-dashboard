@@ -142,7 +142,6 @@ ansible-playbook weather_lambda_eventbridge.yaml -vv
 **Confirm Successful Execution:**
 
 ```bash
-aws sns list-topics
 aws lambda list-functions
 aws events list-rules 
 crontab -l
