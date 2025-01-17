@@ -201,4 +201,4 @@ python src/weather_data_aggregator.py
 
 ## Conclusion
 
-Let's GO!! I thoroughly enjoyed building the Weather-Dashboard-Automation project. I've gained more hands-on experience with AWS services along with Ansible automation and IaC principles. To see these services work seamlessly to create a functional, scalable solution for daily weather notifications is such a thrill!
+Let's GO!! I thoroughly enjoyed building the Weather-Dashboard-Automation project. I've gained more hands-on experience with AWS services along with Ansible automation and IaC principles. To see these services work seamlessly to create a functional, scalable solution for daily weather notifications was such a thrill!
