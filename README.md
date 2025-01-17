@@ -47,7 +47,7 @@ Designed for full automation and idempotency, this project ensures consistent, e
 ```bash
 cd
 dnf install -y git ansible-core
-git clone -b feature/sns-eventbridge https://github.com/Thuynh808/weather-dashboard
+git clone -b feature/sns-eventbridge https://github.com/Thuynh808/weather-dashboard-automation
 cd weather-dashboard
 ansible-galaxy collection install -r requirements.yaml -vv
 ```
