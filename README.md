@@ -154,7 +154,7 @@ crontab -l
   
 **Excellent! Now for a demo, let's manually test our Weather Dashboard!**
 ```bash
-python /src/weather_data_aggregator.py
+python src/weather_data_aggregator.py
 ```
 <details close>
   <summary> <h4>See results</h4> </summary>
