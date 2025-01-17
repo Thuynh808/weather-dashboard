@@ -1,7 +1,7 @@
 ![Weather-Dashboard-Automation](https://i.imgur.com/9qfpYjc.png)
 
 ## Project Overview
-This project automates daily weather data collection, aggregation, and notifications using AWS services and Ansible. It fetches weather data for four cities, uploads it to S3, triggers a Lambda function via EventBridge, and sends an aggregated report via SNS. Designed for full automation and idempotency, it ensures consistent, efficient, and reliable operations.
+Designed for full automation and idempotency, this project ensures consistent, efficient, and reliable operations. It automates daily weather data collection, aggregation, and notifications using AWS services and Ansible. The project fetches weather data for four cities, uploads it to S3, triggers a Lambda function via EventBridge, and sends an aggregated report through SNS.
 
 ## Components
 
