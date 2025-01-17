@@ -1,7 +1,7 @@
 ![Weather-Dashboard-Automation](https://i.imgur.com/9qfpYjc.png)
 
 ## Project Overview
-Designed for full automation and idempotency, this project ensures consistent, efficient, and reliable operations. It automates daily weather data collection, aggregation, and notifications using AWS services and Ansible. The project fetches weather data for four cities, uploads it to S3, triggers a Lambda function via EventBridge, and sends an aggregated report through SNS.
+Designed for full automation, idempotency, and Infrastructure as Code (IaC), this project ensures consistent, efficient, and reliable operations. It automates daily weather data collection, aggregation, and notifications using AWS services and Ansible. The project fetches weather data for four cities, uploads it to S3, triggers a Lambda function via EventBridge, and sends an aggregated report through SNS.
 
 ## Components
 
@@ -201,4 +201,4 @@ python src/weather_data_aggregator.py
 
 ## Conclusion
 
-Let's GO!! The Weather Dashboard project gave me hands-on experience with AWS services like S3, SNS, Lambda, and EventBridge, all tied together with Ansible automation. It was awesome to see these services work seamlessly to create a functional, scalable solution for daily weather notifications.
+Let's GO!! I thoroughly enjoyed building the Weather-Dashboard-Automation project. I've gained more hands-on experience with AWS services along with Ansible automation and IaC principles. To see these services work seamlessly to create a functional, scalable solution for daily weather notifications is such a thrill!
