@@ -111,19 +111,35 @@ aws s3 ls
 aws sns list-topics
 ```
 <details close>
-  <summary> <h4>See images</h4> </summary>
+  <summary> <h4>Image Results</h4> </summary>
     
-![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
-  </details>
+![Weather-Dashboard-Automation](https://i.imgur.com/P7ASLna.png)
   
-**Log in to email account and confirm subscription**
-<details close>
-  <summary> <h4>See images</h4> </summary>
-    
-![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
+  - **System dependencies**: (curl, unzip, python3, python3-pip) are installed
+  - **Python libraries**: (boto3, botocore, python-dotenv, requests) are installed with required versions
+  - **AWS CLI**: credentials and region are properly configured
+  - **IAM identity**: is correctly authenticated via AWS CLI, confirming access to the AWS account
+  - **S3 bucket**: exists and is accessible through the CLI
+  - **SNS topic**: is successfully created, and its ARN matches the expected configuration
   </details>
 
-**Run Playbook:**
+---
+
+### Now we need to log in to email account and confirm subscription
+
+<details close>
+  <summary> <h4>Images Results</h4> </summary>
+    
+![Weather-Dashboard-Automation](https://i.imgur.com/nJw3q63.png)
+
+  - **Click and confirm subscription**
+    
+![Weather-Dashboard-Automation](https://i.imgur.com/qaG7Akb.png)
+  </details>
+
+---
+
+**Run Final Playbook:**
 ```bash
 ansible-playbook weather_lambda_eventbridge.yaml -vv
 ```
@@ -147,9 +163,12 @@ aws events list-rules
 crontab -l
 ```
 <details close>
-  <summary> <h4>See images</h4> </summary>
+  <summary> <h4>Image Results</h4> </summary>
     
-![HPC_CryptoCluster](https://i.imgur.com/UCc5IMD.png)
+![Weather-Dashboard-Automation](https://i.imgur.com/90vYwtb.png)
+![Weather-Dashboard-Automation](https://i.imgur.com/ZocVy92.png)
+
+  
   </details>
   
 **Excellent! Now for a demo, let's manually test our Weather Dashboard!**
