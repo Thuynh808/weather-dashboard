@@ -148,7 +148,7 @@ ansible-playbook weather_lambda_eventbridge.yaml -vv
   - Add IAM execution role ARN variable to myvars.yaml
   - Generate a custom IAM policy and attach to our `lambda-execution-role`
   - Compress the `Lambda` python script
-  - Create `Lambda` function from script and attach role
+  - Create `Lambda` function from script and attach the IAM role
   - Append `Lambda` variables to myvars.yaml
   - Enable `EventBridge` notifications on `S3` bucket
   - Generate rule in `EventBridge` for newly created objects in `S3`
