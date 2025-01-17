@@ -194,10 +194,10 @@ python src/weather_data_aggregator.py
 ## Challenges and Solutions
 
 - **Versioning Issue with Lambda ARN**: Resolved by dynamically extracting the base ARN without version numbers
-- Policy Propagation Error: Added a "pause" module after creating IAM policies to ensure EventBridge permissions were applied
-- Dynamic Variables in Ansible: Used set_fact and lineinfile modules to dynamically update variable file
-- Conditional Task Execution: Ensured the AWS CLI installation only runs when not already present using "when" conditions
-- S3 Event Configuration Error: Properly enabled EventBridge for S3 bucket events to trigger Lambda
+- **Policy Propagation Error**: Added a `pause` module after creating IAM policies to ensure policy and role were applied
+- **Dynamic Variables in Ansible**: Used `set_fact` and `lineinfile` modules to dynamically update variable file
+- **Conditional Task Execution**: Ensured the AWS CLI installation only runs when not already present using `when` conditions
+- **S3 Event Configuration Error**: Properly enabled EventBridge for S3 bucket events to trigger Lambda
 
 ## Conclusion
 
