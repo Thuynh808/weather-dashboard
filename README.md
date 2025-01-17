@@ -108,6 +108,7 @@ pip list | egrep "boto3|botocore|python-dotenv|requests"
 aws configure list
 aws sts get-caller-identity
 aws s3 ls
+aws sns list-topics
 ```
 <details close>
   <summary> <h4>See images</h4> </summary>
