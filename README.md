@@ -47,7 +47,7 @@ Designed for full automation, idempotency, and Infrastructure as Code (IaC), thi
 ```bash
 cd
 dnf install -y git ansible-core
-git clone -b feature/sns-eventbridge https://github.com/Thuynh808/weather-dashboard-automation
+git clone https://github.com/Thuynh808/weather-dashboard-automation
 cd weather-dashboard
 ansible-galaxy collection install -r requirements.yaml -vv
 ```
