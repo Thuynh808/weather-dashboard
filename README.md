@@ -1,9 +1,9 @@
 ![Weather-Dashboard-Automation](https://i.imgur.com/9qfpYjc.png)
 
 ## Project Overview
-This project automates daily weather data collection, aggregation, and notification delivery using AWS services and Ansible. The **Weather Dashboard** fetches weather data from the OpenWeather API for four cities, uploads it to an S3 bucket, triggers a Lambda function via EventBridge, and sends the aggregated weather report to a subscribed email via SNS. This project demonstrates cloud automation, event-driven architecture, and end-to-end deployment workflows.
+This project automates daily weather data collection, aggregation, and notifications using AWS services and Ansible. It fetches weather data for four cities, uploads it to S3, triggers a Lambda function via EventBridge, and sends an aggregated report via SNS. Designed for full automation and idempotency, it ensures consistent, efficient, and reliable operations.
 
-### Components
+## Components
 
 - **Rocky Linux VM**: Provides a RHEL-based and stable environment for Ansible and script execution
 - **Ansible**: Automates the deployment of AWS infrastructure and project setup
@@ -12,13 +12,16 @@ This project automates daily weather data collection, aggregation, and notificat
   - Uploads aggregated data to S3
   - Processes S3 events and sends notifications to SNS
 - **AWS Services**:
-  - **S3**: Stores aggregated weather data
-  - **SNS**: Sends email notifications with weather reports
+  - **S3**: Stores object weather data
+  - **SNS**: Manage notifications through topics and subscribers
   - **Lambda**: Processes S3 events and publishes reports to SNS
-  - **EventBridge**: Triggers Lambda on S3 object creation
+  - **EventBridge**: Using event pattern rule to detect S3 object creation and trigger the Lambda function
+  - **IAM**: Manages secure access to AWS services with fine-grained policies and roles
+- **Cron**: Schedules the Python script to run daily for consistent weather data collection
+- **Email**: Delivers weather reports to end users via notifications sent through AWS SNS
 - **OpenWeather API**: Provides real-time weather data for multiple cities
 
-### Versions
+## Versions
 
 | Component        | Version  | Component     | Version |
 |------------------|----------|---------------|---------|
